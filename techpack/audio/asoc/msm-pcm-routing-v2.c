@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /* Copyright (c) 2012-2021, The Linux Foundation. All rights reserved.
- * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
  */
 
 #include <linux/init.h>
@@ -1690,7 +1690,7 @@ static int msm_pcm_routing_channel_mixer_v2(int fe_id, bool perf_mode,
 	int j = 0, be_id = 0;
 	int ret = 0;
 
-	if (fe_id >= MSM_FRONTEND_DAI_MM_SIZE) {
+	if (fe_id >= MSM_FRONTEND_DAI_MAX) {
 		pr_err("%s: invalid FE %d\n", __func__, fe_id);
 		return 0;
 	}
@@ -1757,7 +1757,7 @@ static int msm_pcm_routing_channel_mixer(int fe_id, bool perf_mode,
 		return ret;
 	}
 
-	if (fe_id >= MSM_FRONTEND_DAI_MM_SIZE) {
+	if (fe_id >= MSM_FRONTEND_DAI_MAX) {
 		pr_err("%s: invalid FE %d\n", __func__, fe_id);
 		return 0;
 	}
@@ -24278,7 +24278,7 @@ static void AC_setLIMITER(struct tx_control_param_t *ac_params, int16_t threshol
 
 static void AC_setAudioZoom(struct tx_ac_voicefocus_param_t *ac_params, uint16_t zoomlevel)
 {
-	uint16_t AF_level = (zoomlevel*3.3); // Camera Zoom level : 0 ~ 30
+	uint16_t AF_level = (zoomlevel 	* 33) / 10; // Camera Zoom level : 0 ~ 30
 
 	ac_params->EffectLevel = AF_level; // [0, 99]
 	ac_params->AudioFocusAngle = 0;
@@ -24293,7 +24293,7 @@ static void AC_setAudioZoom(struct tx_ac_voicefocus_param_t *ac_params, uint16_t
 
 static void AC_setASMR(struct tx_ac_voicefocus_param_t *ac_params, uint16_t zoomlevel)
 {
-	uint16_t AF_level = (zoomlevel*3.3); // Camera Zoom level : 0 ~ 30
+        uint16_t AF_level = (zoomlevel  * 33) / 10; // Camera Zoom level : 0 ~ 30
 
 	ac_params->EffectLevel = AF_level; // [0, 99]
 	ac_params->AudioFocusAngle = 0;
